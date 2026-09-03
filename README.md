@@ -79,7 +79,7 @@ collected, then expire.
 ## Links
 
 - App — https://app.perflo.ai
-- Docs — https://perflo.ai
+- Docs — https://docs.perflo.ai
 - Server — `https://mcp.perflo.ai/mcp`
 
 ## License
