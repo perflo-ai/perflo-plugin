@@ -1,0 +1,24 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "perflo",
+  "version": "1.0.0",
+  "description": "Pay for data and move money from your agent. Perflo calls 550+ paid providers for research, enrichment and gift cards, and moves the user's own funds under limits they set.",
+  "author": {
+    "name": "Perflo",
+    "url": "https://perflo.ai"
+  },
+  "homepage": "https://app.perflo.ai",
+  "repository": "https://github.com/perflo-ai/perflo-plugin",
+  "logo": "assets/logo.svg",
+  "license": "MIT",
+  "keywords": [
+    "perflo",
+    "payments",
+    "money",
+    "finance",
+    "x402",
+    "enrichment",
+    "research",
+    "gift-cards"
+  ]
+}
