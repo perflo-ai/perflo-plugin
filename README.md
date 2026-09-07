@@ -132,7 +132,7 @@ The terms are at https://perflo.ai/terms.
 - Docs — https://docs.perflo.ai
 - Privacy policy — https://perflo.ai/privacy
 - Terms — https://perflo.ai/terms
-- Support — hello@perflo.ai
+- Support — info@perflo.ai
 - Server — `https://mcp.perflo.ai/mcp`
 
 ## License
