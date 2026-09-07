@@ -12,6 +12,35 @@ limits the user sets once and can revoke at any time.
 
 ## Install
 
+Perflo is one remote MCP server, `https://mcp.perflo.ai/mcp`. How you add it depends
+on the host. **You do not need this repository to use Perflo in Claude** — the
+connector is the server, and this repo only adds the two skills on top of it.
+
+### Claude (connector)
+
+Add it as a custom connector in Settings → Connectors, using the server URL above.
+Once the directory listing is approved it will also be searchable by name, with no URL
+to paste.
+
+### Claude Code (plugin)
+
+This repository is a Claude Code plugin: it installs the same server *and* the two
+skills below.
+
+```bash
+claude plugin marketplace add perflo-ai/perflo-plugin
+claude plugin install perflo@perflo-ai
+```
+
+Until the plugin is listed, install it straight from a clone:
+
+```bash
+git clone https://github.com/perflo-ai/perflo-plugin
+claude --plugin-dir ./perflo-plugin
+```
+
+### Cursor
+
 Add it from the Cursor marketplace, or point at the server directly:
 
 ```json
@@ -23,6 +52,18 @@ Add it from the Cursor marketplace, or point at the server directly:
   }
 }
 ```
+
+### Repository layout
+
+The two manifest pairs exist because the two hosts read different filenames. They are
+kept in agreement by CI, so edit both or neither:
+
+| File | Read by |
+| :--- | :--- |
+| `plugin.json` | Cursor |
+| `mcp.json` | Cursor |
+| `.claude-plugin/plugin.json` | Claude Code |
+| `.mcp.json` | Claude Code |
 
 ## Signing in
 
@@ -76,10 +117,22 @@ returned to your session. Perflo stores transaction records for your account so
 charges can be audited. Results of slow calls are held briefly so they can be
 collected, then expire.
 
+## Privacy Policy
+
+Perflo's privacy policy is at **https://perflo.ai/privacy**. It covers what is
+collected, how it is used and stored, who it is disclosed to, how long it is kept and
+how to contact us. Clause 4 is the one to read first: it sets out the commitments made
+about Agent Data, including that it is not trained on and not read.
+
+The terms are at https://perflo.ai/terms.
+
 ## Links
 
 - App — https://app.perflo.ai
 - Docs — https://docs.perflo.ai
+- Privacy policy — https://perflo.ai/privacy
+- Terms — https://perflo.ai/terms
+- Support — hello@perflo.ai
 - Server — `https://mcp.perflo.ai/mcp`
 
 ## License
