@@ -1,0 +1,41 @@
+name: validate
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  manifests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # The dual-file footgun: Cursor reads mcp.json, Claude Code reads .mcp.json.
+      # Two files pointing at two different servers is a bug nobody notices until
+      # one host connects somewhere the other does not. They must be byte-identical.
+      - name: mcp.json and .mcp.json agree
+        run: diff mcp.json .mcp.json
+
+      # plugin.json (Cursor) and .claude-plugin/plugin.json (Claude) are different
+      # schemas, so they cannot be diffed — but the identity fields must not drift.
+      - name: plugin manifests agree on identity
+        run: |
+          for field in name version description homepage repository license; do
+            a=$(jq -r ".$field // empty" plugin.json)
+            b=$(jq -r ".$field // empty" .claude-plugin/plugin.json)
+            if [ "$a" != "$b" ]; then
+              echo "::error::$field differs: plugin.json='$a' .claude-plugin/plugin.json='$b'"
+              exit 1
+            fi
+          done
+          echo "identity fields agree"
+
+      - name: every skill has frontmatter with a description
+        run: |
+          fail=0
+          for f in skills/*/SKILL.md; do
+            head -1 "$f" | grep -qx -- '---' || { echo "::error::$f: no frontmatter"; fail=1; }
+            awk 'NR>1 && /^---$/{exit} NR>1' "$f" | grep -q '^description:' \
+              || { echo "::error::$f: frontmatter has no description"; fail=1; }
+          done
+          exit $fail
